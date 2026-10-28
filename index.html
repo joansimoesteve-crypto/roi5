@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Avatar Roi — tu opinión también construye ciudades, empresas e instituciones</title>
+<meta name="description" content="Roi te acompaña mientras navegas: valora webs, lugares y proyectos con un toque y cuéntanos cómo te sientes.">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{--ink:#26331f;--moss:#3f5a3a;--sage:#e9efdc;--paper:#fbf7ec;--mut:#5b6a50;--line:#cfd6c2}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font:17px/1.6 "Bricolage Grotesque",system-ui,sans-serif;color:var(--ink);background:var(--paper)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;gap:16px}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink);font-size:34px;font-weight:600;letter-spacing:-.03em;line-height:1}.brand b{font-weight:800}.brand img{width:60px;height:60px;filter:drop-shadow(0 6px 12px #3f5a3a55)}
+nav .links{display:flex;gap:22px;align-items:center;font-weight:600;font-size:15px}nav .links a{color:var(--ink);text-decoration:none}nav .cta{background:var(--moss);color:#fff!important;padding:10px 20px;border-radius:99px}
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:44px;align-items:center;padding:36px 0 72px}
+h1{font-size:clamp(42px,7vw,80px);line-height:.98;letter-spacing:-.035em;font-weight:800;margin:0 0 22px}h1 .l{display:block;overflow:visible}h1 .l:last-child{color:var(--moss)}
+.d{display:inline-block;animation:drop .8s cubic-bezier(.25,1.5,.4,1) both;animation-delay:calc(var(--i)*.16s + .1s)}
+@keyframes drop{from{opacity:0;transform:translateY(-90px) rotate(-5deg)}}
+h2{font-size:clamp(26px,4vw,38px);letter-spacing:-.025em;margin:0 0 8px;line-height:1.08}h3{font-size:19px;margin:0 0 6px}
+.lead{max-width:46ch;color:var(--mut);font-size:19px;margin:0 0 28px}
+.btn{display:inline-block;padding:13px 24px;border-radius:99px;background:var(--moss);color:#fff;text-decoration:none;font:600 16px "Bricolage Grotesque",sans-serif;border:0;cursor:pointer}.btn.g{background:transparent;color:var(--ink);border:2px solid var(--ink);margin-left:8px}.btn.s{padding:9px 16px;font-size:14px}
+.btn:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+/* demo chat */
+.demo{position:relative;background:#fff;border-radius:28px;box-shadow:0 30px 70px #3f5a3a40;overflow:hidden;max-width:420px;margin-left:auto;width:100%}
+.dh{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--sage);font-weight:800;font-size:18px}.dh img{width:48px;height:48px;border-radius:50%;object-fit:cover;border:3px solid #fff;transition:border-color .3s}
+.dbadge{margin-left:auto;width:34px;height:34px}.dbody{height:380px;overflow:hidden;padding:12px 16px;display:flex;flex-direction:column}
+.m{max-width:88%;padding:9px 13px;border-radius:16px 16px 16px 4px;margin:5px 0;background:var(--paper);font-size:14.5px;animation:pop .25s}.m.me{margin-left:auto;background:var(--moss);color:#fff;border-radius:16px 16px 4px 16px}
+.m.blk{background:none;padding:2px 0;max-width:100%;display:flex;gap:6px;flex-wrap:wrap}.m.faces{justify-content:space-between}.m.faces span{width:40px;transition:transform .2s;opacity:.6}.m.faces span.on{transform:scale(1.25);opacity:1}
+.m.blk>span.c{border:1px solid var(--line);border-radius:99px;padding:6px 14px;font-size:13.5px;background:#fff;transition:.2s}.m.blk>span.on.c{background:var(--moss);color:#fff;border-color:var(--moss)}
+.m svg,.dbadge svg{display:block;width:100%}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}}
+.dots u{display:inline-block;width:7px;height:7px;margin:0 2px;border-radius:50%;background:#9aa68e;animation:bl 1s infinite}.dots u:nth-child(2){animation-delay:.15s}.dots u:nth-child(3){animation-delay:.3s}@keyframes bl{50%{transform:translateY(-4px)}}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);border-top:2px solid var(--ink)}.cols>div{padding:28px 24px 28px 0}.cols>div+div{padding-left:24px;border-left:1px solid var(--line)}.cols p{margin:0;color:var(--mut)}
+section{margin-top:88px}.sub{color:var(--mut);margin:0 0 24px;max-width:58ch}.note{font-size:14px;color:var(--mut);margin-top:12px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}.tabs button{padding:9px 18px;border-radius:99px;border:1px solid var(--line);background:#fff;font:600 15px inherit;font-family:inherit;cursor:pointer}.tabs button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.slide{display:grid;grid-template-columns:44px 1fr 44px;gap:14px;align-items:center;background:var(--sage);border-radius:22px;padding:16px 20px;margin-bottom:8px}
+.slide .big{display:flex;align-items:center;gap:12px;grid-column:1/-1;font-weight:800;font-size:20px}.slide .big svg{width:46px}
+input[type=range]{width:100%;accent-color:var(--moss);height:32px}
+.rk{display:grid;grid-template-columns:1fr 1.1fr;gap:28px;align-items:start}
+ol.r{list-style:none;margin:0;padding:0}ol.r li{display:grid;grid-template-columns:14px 1fr auto;gap:0 12px;padding:10px 0;border-bottom:1px solid var(--line);align-items:center}ol.r i{width:14px;height:14px;border-radius:50%;grid-row:1/3}ol.r small{color:var(--mut)}ol.r b{grid-row:1/3;grid-column:3}
+#map{height:400px;border-radius:22px;border:1px solid var(--line)}
+.card{background:var(--sage);border-radius:28px;padding:36px}.gen{display:grid;grid-template-columns:1fr auto;gap:36px;align-items:start}
+label{display:block;font-weight:600;margin:0 0 4px;font-size:15px}input,select,textarea{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font:inherit;background:#fff;margin-bottom:14px;color:var(--ink)}textarea{height:96px;resize:vertical}
+.qrbox{background:#fff;padding:18px 18px 12px;border-radius:34px;border:6px solid #cfe0b8;text-align:center;box-shadow:0 14px 34px #3f5a3a30}.qrbox p{margin:6px 0 0;font-weight:800;font-size:14px;color:var(--moss)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}#out label{margin-top:6px}#out input,#out textarea{font-size:13px;margin-bottom:8px}#out textarea{height:70px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}.chk{display:flex;gap:10px;align-items:flex-start;font-size:14px;margin-bottom:16px}.chk input{width:auto;margin:5px 0 0}
+.hp{position:absolute;left:-9999px}.ok{font-weight:700;color:var(--moss)}
+.steps ol{margin:12px 0 0;padding-left:22px;max-width:62ch}.steps li{margin-bottom:8px}code{background:#fff;padding:2px 8px;border-radius:6px;font-size:.88em}
+.bm{display:inline-block;margin:6px 0;padding:10px 18px;border-radius:99px;border:2px dashed var(--moss);background:#fff;color:var(--ink);font-weight:700;text-decoration:none;cursor:grab}
+footer{padding:80px 0 100px;color:var(--mut);font-size:14px;display:flex;gap:14px;align-items:center}footer img{width:36px}footer a{color:var(--moss)}
+@media(max-width:820px){.hero,.cols,.rk,.gen,.two{grid-template-columns:1fr}.cols>div+div{border-left:0;border-top:1px solid var(--line);padding-left:0}.card{padding:22px}nav .links a:not(.cta){display:none}.demo{margin:0 auto}.brand{font-size:28px}.brand img{width:50px;height:50px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<div class="wrap">
+<nav><a class="brand" href="#"><img src="logo.svg" alt=""><span>Avatar <b>Roi</b></span></a>
+<div class="links"><a href="#rankings">Rankings</a><a href="#pide">Pide valoraciones</a><a href="#empresas">Empresas</a><a class="cta" href="#instalar">Instalar</a></div></nav>
+<header class="hero"><div>
+<h1><span class="l"><span class="d" style="--i:0">Valora.</span></span><span class="l"><span class="d" style="--i:1">Comparte.</span></span><span class="l"><span class="d" style="--i:2">Haz</span> <span class="d" style="--i:3">la</span> <span class="d" style="--i:4">diferencia.</span></span></h1>
+<p class="lead">Roi te acompaña mientras navegas, te pregunta cómo te sientes y convierte tu opinión en conocimiento para mejores ciudades, empresas e instituciones.</p>
+<a class="btn" href="#instalar">Instalar a Roi</a><a class="btn g" href="#" onclick="AvatarRoi.open();return false">Probar ahora</a></div>
+<div class="demo" id="demo" aria-label="Ejemplo de conversación con Roi"><div class="dh"><img id="dimg" alt="">Roi<span class="dbadge"></span></div><div class="dbody" aria-hidden="true"></div></div></header>
+<div class="cols">
+<div><h3>Valora cualquier web</h3><p>Una carita, una emoción y, si quieres, un comentario. Todo en una conversación corta.</p></div>
+<div><h3>Opina en la calle</h3><p>Usa tu ubicación o busca la dirección. Parques, estaciones, tiendas, oficinas.</p></div>
+<div><h3>Para quien decide</h3><p>Un ayuntamiento marca sus proyectos y la gente opina sobre cada uno. Las organizaciones ven cómo se siente su gente.</p></div></div>
+
+<section id="rankings"><h2>Lo que opina la gente</h2><p class="sub">Elige qué mirar y arrastra hacia la carita triste, la neutra o la feliz.</p>
+<div class="tabs" id="tabs"><button data-t="webs" aria-pressed="true">Webs</button><button data-t="places" aria-pressed="false">Lugares</button><button data-t="projects" aria-pressed="false">Proyectos</button><button data-t="orgs" aria-pressed="false">Empresas e instituciones</button></div>
+<div class="slide"><span id="fl" aria-hidden="true"></span><input type="range" id="mood" min="1" max="5" step="0.1" value="5" aria-label="Filtrar por valoración, de peor a mejor"><span id="fr" aria-hidden="true"></span><div class="big"><span id="big"></span><span id="lab"></span></div></div>
+<div class="rk"><ol class="r" id="list"></ol><div id="map" aria-label="Mapa de valoraciones"></div></div>
+<p class="note" id="note"></p></section>
+
+<section id="pide"><div class="card gen"><div><h2>Pide que te valoren</h2><p class="sub">Crea un enlace, un QR y un código para tu web. Quien lo abra valora sin instalar nada. Sirve para un local, una web, una institución o un proyecto concreto.</p>
+<label for="nm">Nombre</label><input id="nm" placeholder="Ej. Café Central, Peatonalización calle Mayor…" maxlength="80">
+<div class="two"><div><label for="ty">Tipo</label><select id="ty"><option value="place">Lugar físico</option><option value="project">Proyecto o iniciativa</option><option value="org">Empresa o institución</option><option value="web">Web</option></select></div>
+<div><label for="ur">Web de destino (opcional)</label><input id="ur" type="url" placeholder="https://…"></div></div>
+<button class="btn" id="gen">Crear enlace, QR y código</button>
+<div id="out" hidden><label for="lk">Enlace para compartir</label><input id="lk" readonly><div class="row"><button class="btn s" id="cp">Copiar</button><button class="btn s g" id="sh" style="margin:0">Compartir</button><button class="btn s g" id="dl" style="margin:0">Descargar QR</button></div>
+<label for="em">Código para poner a Roi en tu web</label><textarea id="em" readonly></textarea><button class="btn s" id="cp2">Copiar código</button></div></div>
+<div class="qrbox"><div id="qr"></div><p>Escanea y cuéntame cómo te sientes</p></div></div></section>
+
+<section id="empresas"><h2>Hablemos de tu organización</h2><p class="sub">Panel de resultados, Roi en tu web, QR para tus locales y proyectos ciudadanos. Cuéntanos qué necesitas y te contactamos.</p>
+<form class="card" id="lead"><div class="two"><div><label for="ln">Tu nombre</label><input id="ln" required maxlength="100" autocomplete="name"></div><div><label for="lo">Organización</label><input id="lo" required maxlength="120" autocomplete="organization"></div>
+<div><label for="le">Email</label><input id="le" type="email" required maxlength="120" autocomplete="email"></div><div><label for="lk2">Somos</label><select id="lk2"><option>Ayuntamiento o institución</option><option>Empresa</option><option>Otro</option></select></div></div>
+<label for="li">Me interesa</label><select id="li"><option>Panel de resultados</option><option>Roi en mi web</option><option>QR para mis locales</option><option>Proyectos ciudadanos</option><option>Todo lo anterior</option></select>
+<label for="lm">Mensaje</label><textarea id="lm" maxlength="1000"></textarea><input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+<label class="chk"><input type="checkbox" id="lc" required><span>Acepto que Avatar Roi use estos datos para contactarme. Más información en la <a href="privacy.html">política de privacidad</a>.</span></label>
+<button class="btn" type="submit">Enviar</button> <span class="ok" id="lr" role="status"></span></form></section>
+
+<section class="steps" id="instalar"><h2>Instalar a Roi</h2><p class="sub">Elige la vía más rápida.</p>
+<h3>Ahora mismo, sin instalar</h3><p>Arrastra este botón a tu barra de marcadores y púlsalo en cualquier web:</p><a class="bm" id="bm" href="#">⭐ Roi</a>
+<h3 style="margin-top:24px">Extensión completa (Chrome, Edge, Brave)</h3><p>Próximamente en Chrome Web Store, con un solo clic.</p></section>
+<footer><img src="logo.svg" alt=""><span>Avatar Roi · Juntos construimos mejores ciudades, empresas e instituciones. · <a href="privacy.html">Privacidad</a></span></footer>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+<script src="avatar.js"></script>
+<script>
+const $=id=>document.getElementById(id),CONTACT_EMAIL='hola@TU-DOMINIO.com'; // ← cambia por tu email
+const COL=['#e8605a','#f0913a','#f2d05c','#8cc35e','#5fb760'],MOU=['M33 68Q50 56 67 68','M33 66Q50 58 67 66','M34 64H66','M32 60Q50 76 68 60','M30 58Q50 82 70 58'];
+const face=i=>`<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="${COL[i]}"/><circle cx="36" cy="40" r="5" fill="#3a2a1a"/><circle cx="64" cy="40" r="5" fill="#3a2a1a"/>${i==0?'<path d="M26 28L44 34M74 28L56 34" stroke="#3a2a1a" stroke-width="5" stroke-linecap="round"/>':''}<path d="${MOU[i]}" stroke="#3a2a1a" stroke-width="6" fill="none" stroke-linecap="round"/></svg>`;
+$('dimg').src='roi.png';$('fl').innerHTML=face(0);$('fr').innerHTML=face(4);
+$('bm').href="javascript:(function(){var s=document.createElement('script');s.src='"+location.origin+"/avatar.js';document.body.appendChild(s)})()";
+
+/* Conversación de ejemplo en vivo */
+const dB=document.querySelector('.dbody'),badge=document.querySelector('.dbadge'),sleep=ms=>new Promise(r=>setTimeout(r,ms)),RM=matchMedia('(prefers-reduced-motion: reduce)').matches,T=ms=>RM?0:ms;
+const msg=(c,h)=>{const d=document.createElement('div');d.className='m '+c;d.innerHTML=h;dB.append(d);dB.scrollTop=dB.scrollHeight;return d};
+const bot=async t=>{const d=msg('','<i class="dots"><u></u><u></u><u></u></i>');await sleep(T(750));d.textContent=t;dB.scrollTop=dB.scrollHeight};
+const mood=i=>{badge.innerHTML=i==null?'':face(i);$('dimg').style.borderColor=i==null?'#fff':COL[i]};
+async function pickIn(el,idx,label){await sleep(T(900));el.children[idx].classList.add('on');await sleep(T(450));msg('me',label)}
+async function demo(){do{dB.innerHTML='';mood(null);
+await bot('Hola, soy Roi 👋 ¿Cómo te sientes con parque-central.es?');
+const f=msg('blk faces',COL.map((_,i)=>`<span>${face(i)}</span>`).join(''));await sleep(T(1000));f.children[3].classList.add('on');mood(3);await sleep(T(450));msg('me','Bien');
+await bot('¿Qué te hace sentir así?');const c=msg('blk',['Cómodo','Tranquilo','Agradecido'].map(t=>`<span class="c">${t}</span>`).join(''));await pickIn(c,1,'Tranquilo');
+await bot('¿Qué quieres valorar?');const o=msg('blk',['Esta página','Un lugar físico'].map(t=>`<span class="c">${t}</span>`).join(''));await pickIn(o,1,'Un lugar físico');
+await bot('¿Cómo quieres indicar el lugar?');const p=msg('blk',['📍 Usar mi ubicación','✍️ Escribirlo'].map(t=>`<span class="c">${t}</span>`).join(''));await pickIn(p,0,'📍 Parque Central · Madrid');
+await bot('¿Quieres añadir algo? Escríbelo o díctalo con el micro.');const me=msg('me','');for(const ch of 'Muy limpio y con mucha sombra'){me.textContent+=ch;await sleep(T(45))}
+await sleep(T(500));await bot('¡Gracias! Tu valoración ya cuenta 💚');mood(4);await sleep(T(3800))}while(!RM)}
+demo();
+
+/* Rankings + mapa */
+const SAMPLE={webs:[['tramites.ciudad-ejemplo.es',4.6,312],['tienda-ejemplo.com',4.4,208],['universidad-ejemplo.edu',4.1,150],['aerolinea-ejemplo.com',2.8,233],['banco-ejemplo.com',2.2,410],['sede-electronica-ejemplo.gob',1.9,520]].map(a=>({name:a[0],avg:a[1],n:a[2]})),
+places:[['Parque Central',4.8,540,40.4153,-3.6844],['Biblioteca Municipal',4.7,210,40.4203,-3.704],['Mercado del Norte',4.3,330,40.443,-3.7],['Oficina de Atención',2.6,260,40.409,-3.702],['Estación Intermodal',2.1,620,40.4065,-3.692],['Paso subterráneo Av. Sur',1.8,140,40.39,-3.68]].map(a=>({name:a[0],avg:a[1],n:a[2],lat:a[3],lng:a[4]})),
+projects:[['Reforma Plaza del Barrio',4.6,120,40.43,-3.715],['Peatonalización calle Mayor',4.2,180,40.4155,-3.7074],['Carril bici Av. Norte',3.1,95,40.45,-3.69],['Soterramiento Ronda Sur',2.3,260,40.395,-3.7]].map(a=>({name:a[0],avg:a[1],n:a[2],lat:a[3],lng:a[4]})),
+orgs:[['Cafetería La Plaza',4.7,90],['Universidad Ejemplo',4,220],['Ayuntamiento de Ejemplo',3.4,410],['Aseguradora Ejemplo',2.6,150],['Banco Ejemplo S.A.',2,300]].map(a=>({name:a[0],avg:a[1],n:a[2]}))};
+let DATA=SAMPLE,tab='webs',fitted=false;
+const HAS=typeof L!=='undefined',map=HAS?L.map('map',{scrollWheelZoom:false}).setView([40.42,-3.70],12):null,layer=HAS?L.layerGroup().addTo(map):null;
+if(HAS)L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
+const ci=a=>Math.min(4,Math.max(0,Math.round(a)-1));
+const lab=v=>v<1.8?'Lo peor valorado':v<2.6?'Mal valorado':v<3.4?'En el medio':v<4.2?'Bien valorado':'Lo mejor valorado';
+function render(){const v=+$('mood').value;$('big').innerHTML=face(ci(v));$('lab').textContent=lab(v);
+ const ol=$('list');ol.innerHTML='';(DATA[tab]||[]).slice().sort((a,b)=>Math.abs(a.avg-v)-Math.abs(b.avg-v)).slice(0,6).forEach(x=>{const li=document.createElement('li'),i=document.createElement('i'),s=document.createElement('span'),b=document.createElement('b'),m=document.createElement('small');i.style.background=COL[ci(x.avg)];s.textContent=x.name;b.textContent='★ '+x.avg.toFixed(1);m.textContent=x.n+' valoraciones';li.append(i,s,b,m);ol.append(li)});
+
+ if(!HAS)return;layer.clearLayers();const pts=[...DATA.places,...DATA.projects].filter(x=>x.lat!=null);
+ pts.filter(x=>Math.abs(x.avg-v)<=1).forEach(x=>{const d=document.createElement('div');d.textContent=x.name+' · ★ '+x.avg.toFixed(1);L.circleMarker([x.lat,x.lng],{radius:11,color:'#fff',weight:3,fillColor:COL[ci(x.avg)],fillOpacity:.95}).bindPopup(d).addTo(layer)});
+ if(!fitted&&pts.length){map.fitBounds(pts.map(x=>[x.lat,x.lng]),{padding:[30,30]});fitted=true}}
+$('mood').oninput=render;
+$('tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;tab=b.dataset.t;[...$('tabs').children].forEach(x=>x.setAttribute('aria-pressed',x===b));render()};
+fetch('/api/rankings').then(r=>r.ok?r.json():Promise.reject()).then(d=>{if(['webs','places','projects','orgs'].some(k=>d[k]&&d[k].length)){DATA={webs:[],places:[],projects:[],orgs:[],...d};fitted=false}else throw 0}).catch(()=>{$('note').textContent='Datos de ejemplo. Se sustituyen por los reales al conectar la base de datos.'}).finally(render);
+
+/* Enlace, QR y código */
+let qr;
+$('gen').onclick=()=>{const n=$('nm').value.trim();if(!n){$('nm').focus();return}let u='';try{const x=new URL($('ur').value.trim());if(/^https?:$/.test(x.protocol))u=x.href}catch(e){}
+ const t=$('ty').value,link=location.origin+'/valorar.html?t='+t+'&n='+encodeURIComponent(n)+(u?'&u='+encodeURIComponent(u):'');
+ $('lk').value=link;$('em').value='<script src="'+location.origin+'/avatar.js" data-name="'+n.replace(/"/g,'&quot;')+'" data-type="'+t+'"><\/script>';$('out').hidden=false;
+ $('qr').innerHTML='';if(typeof QRCodeStyling==='undefined'){$('qr').textContent='No se pudo cargar el generador de QR.';return}qr=new QRCodeStyling({width:240,height:240,type:'canvas',data:link,image:AvatarRoi.img(),margin:4,qrOptions:{errorCorrectionLevel:'H'},imageOptions:{crossOrigin:'anonymous',margin:4,imageSize:.34},dotsOptions:{color:'#3f5a3a',type:'dots'},cornersSquareOptions:{type:'extra-rounded',color:'#26331f'},cornersDotOptions:{type:'dot',color:'#3f8f45'},backgroundOptions:{color:'#ffffff'}});qr.append($('qr'))};
+$('cp').onclick=()=>{navigator.clipboard.writeText($('lk').value);$('cp').textContent='Copiado'};$('cp2').onclick=()=>{navigator.clipboard.writeText($('em').value);$('cp2').textContent='Copiado'};
+$('sh').onclick=()=>{const l=$('lk').value,n=$('nm').value.trim();navigator.share?navigator.share({title:'Valora '+n,url:l}):window.open('https://wa.me/?text='+encodeURIComponent('Valora '+n+': '+l))};
+$('dl').onclick=()=>qr&&qr.download({name:'qr-roi',extension:'png'});
+
+/* Contacto */
+$('lead').onsubmit=async e=>{e.preventDefault();const b={name:$('ln').value,org:$('lo').value,email:$('le').value,kind:$('lk2').value,interest:$('li').value,message:$('lm').value,consent:$('lc').checked,website:$('hp').value};
+ let ok=false;try{ok=(await fetch('/api/leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)})).ok}catch(x){}
+ if(ok){$('lr').textContent='¡Recibido! Te escribimos pronto.';$('lead').reset()}else{$('lr').textContent='Se abrirá tu correo para enviarnos el mensaje.';location.href='mailto:'+CONTACT_EMAIL+'?subject='+encodeURIComponent('Contacto Avatar Roi')+'&body='+encodeURIComponent(`${b.name} (${b.org}, ${b.kind})\n${b.email}\nInterés: ${b.interest}\n\n${b.message}`)}};
+</script></body></html>

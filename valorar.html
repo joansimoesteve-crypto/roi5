@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Valora tu experiencia — Avatar Roi</title><link rel="icon" href="logo.svg" type="image/svg+xml">
+<style>body{margin:0;min-height:100vh;display:grid;place-items:center;text-align:center;padding:24px;font:18px/1.5 system-ui,sans-serif;background:#fbf7ec;color:#26331f}
+img{width:96px;height:96px;border-radius:50%;object-fit:cover;border:5px solid #5fb760;margin-bottom:12px}
+h1{font-size:clamp(30px,7vw,52px);line-height:1.05;letter-spacing:-.02em;margin:0 0 14px}p{color:#5b6a50;max-width:34ch;margin:0 auto 18px}
+a.go{display:inline-block;padding:11px 22px;border-radius:99px;background:#3f5a3a;color:#fff;text-decoration:none;font-weight:600}small{display:block;margin-top:28px;color:#7a866f}</style></head>
+<body><main><img src="roi.png" alt="Roi"><h1 id="t">Valora tu experiencia</h1><p>Toca a Roi, abajo a la derecha. Son 20 segundos y no necesitas instalar nada.</p><a class="go" id="go" hidden></a><small>Avatar Roi · tu opinión mejora ciudades, empresas e instituciones</small></main>
+<script>
+const q=new URLSearchParams(location.search),n=(q.get('n')||'').slice(0,80),t=['place','web','org','project'].includes(q.get('t'))?q.get('t'):'place';let u='';
+try{const x=new URL(q.get('u')||'');if(/^https?:$/.test(x.protocol))u=x.href}catch(e){}
+if(n){window.ROI_CONTEXT={name:n,type:t,url:u};document.getElementById('t').textContent='¿Cómo ha sido tu experiencia en '+n+'?';document.title='Valora '+n}
+if(u){const a=document.getElementById('go');a.hidden=false;a.href=u;a.rel='noopener';a.textContent='Ir a la web de '+(n||new URL(u).hostname)}
+</script><script src="avatar.js" data-open="1"></script></body></html>
